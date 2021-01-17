@@ -70,7 +70,7 @@ TData tdata(const char *filename)
             }
             else
             {   
-                fscanf(fp, "%f", (&ret.training_in[i][inIndex]));
+                fscanf(fp, "%f", &ret.training_in[i][inIndex].value);
                 inIndex += 1;
                 /*
                 char str[1];
@@ -90,7 +90,7 @@ TData tdata(const char *filename)
             }
             else
             {
-                fscanf(fp, "%f", &ret.training_out[i][outIndex]);
+                fscanf(fp, "%f", &ret.training_out[i][outIndex].value);
                 outIndex += 1;
             }
         }
@@ -139,6 +139,7 @@ float *ioValues(IO_Neuron *hidden_layer)
     {
         ret[i] = hidden_layer[i].value;
     }
+    return ret;
 }
 
 float *values(Neuron *hidden_layer)
@@ -267,7 +268,7 @@ void randweights(Neuron* neurons)
 int main()
 {
     srand(1);
-    int i, j;
+    int i;
     // training data
     TData t_data = tdata("training.txt");
     if (!t_data.sucess) 
@@ -287,9 +288,9 @@ int main()
     train(input_layer, hidden_layer, output_layer, training_in, training_out, t_data.examples, 10000);
 
     //test
-    input_layer[0].value = 0;
-    input_layer[1].value = 0;
-    input_layer[2].value = 0;
+    input_layer[0].value = 1;
+    input_layer[1].value = 1;
+    input_layer[2].value = 1;
 
     //output
     think(input_layer, hidden_layer, output_layer);
